@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>BeerXML Importer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/bpmn-js@1.3.0/dist/assets/diagram-js.css">
+    <link rel="stylesheet" href="https://unpkg.com/bpmn-js@1.3.0/dist/assets/bpmn-font/css/bpmn.css">
+    <script type="text/javascript" src="scripts/brauhaus.min.js"></script>
+    <script type="text/javascript" src="scripts/brauhaus-beerxml.min.js"></script>
+    <script>
+    function saveXML() {
+  window.__modeler.saveXML(function(err, xml) {
+    console.log(xml);
+  });
+}
+
+function openDialog() {
+  var textarea = document.getElementById("textarea");
+  var backdrop = document.getElementById("backdrop");
+  backdrop.style.display = "block";
+  textarea.focus();
+}
+
+function submit(event) {
+  var textarea = document.getElementById("textarea");
+
+  if (event.key === "Enter") {
+    backdrop.style.display = "none";
+    window.__importBeerXML(textarea.value);
+    textarea.value = "";
+  }
+
+  if (event.key === "Escape") {
+    backdrop.style.display = "none";
+    textarea.value = "";
+  }
+}
+</script>
+    <style>
+      .djs-visual,
+      .djs-outline,
+      .djs-shape .djs-hit {
+        pointer-events: auto;
+      }
+
+      @-moz-keyframes rotate {
+    		0% {transform: rotate(0deg);}
+    		100% {transform: rotate(-360deg);}
+    	}
+
+    	@-webkit-keyframes rotate {
+    		0% {transform: rotate(0deg);}
+    		100% {transform: rotate(-360deg);}
+    	}
+
+    	@-o-keyframes rotate {
+    		0% {transform: rotate(0deg);}
+    		100% {transform: rotate(-360deg);}
+    	}
+
+    	@keyframes rotate {
+    		0% {transform: rotate(0deg);}
+    		100% {transform: rotate(-360deg);}
+    	}
+
+      button {
+        position: absolute;
+        bottom: 50px;
+        margin-left: 60px;
+        width: 70px;
+        height: 70px;
+        border-radius: 300px;
+        -webkit-transition: all .25s ease-in-out;
+    		-o-transition: all .25s ease-in-out;
+    		-moz-transition: all .25s ease-in-out;
+    		transition: all .25s ease-in-out;
+      }
+
+      #bpmn-button {
+        right: 100px;
+      }
+
+      #bpmn-button:hover {
+        right: 85px;
+        bottom: 35px;
+      }
+
+      #dialog-button {
+        left: 15px;
+      }
+
+      #dialog-button:hover {
+        left: 0;
+        bottom: 35px;
+      }
+
+      button:hover {
+        border-radius: 0;
+        width: 100px;
+        height: 100px;
+        -webkit-transform: rotate(-360deg);
+        -moz-transform: rotate(-360deg);
+        -o-transform: rotate(-360deg);
+        transform: rotate(-360deg);
+      }
+
+      .link {
+        fill: #0000FF;
+        cursor: pointer;
+      }
+
+      #textarea {
+        margin-left: 50px;
+        margin-top: 50px;
+        width: 90%;
+        height: 90%;
+      }
+
+      #backdrop {
+        display: none;
+        background-color: rgba(0, 20, 0, 0.4);;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 5000;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div style="position:relative"></div>
+    <div id="canvas" style="height: 720px"></div>
+    <button id="dialog-button" onclick="openDialog()" class="round">Import</button>
+    <button id="bpmn-button" onclick="saveXML()">Log BPMN</button>
+    <div id="backdrop"><textarea id="textarea" onkeydown="submit(event)"></textarea></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
